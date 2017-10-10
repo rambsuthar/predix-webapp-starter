@@ -1,22 +1,29 @@
 ---
 applications:
-  - name: predix-webapp-starter
+  - name: mck-demo-predix-webapp-starter
     memory: 128M
     timeout: 180
     buildpack: nodejs_buildpack
     command: node server/app.js
     path: build/es5-basic
-#services:
- # - your-name-uaa
- # - your-name-time-series
- # - your-name-asset
+services:
+  - mck-demo-uaa
+  - mck-demo-time-series
+  - mck-demo-asset
+  - mck-demo-redis
 env:
     node_env: cloud
     uaa_service_label : predix-uaa
     # Add these values for authentication in the cloud
-    #base64ClientCredential: dWFhLWNsaWVudC1pZDp1YWEtY2xpZW50LWlkLXNlY3JldA==
-    #loginBase64ClientCredential: bG9naW5fY2xpZW50X2lkOnNlY3JldA==
+    base64ClientCredential: YXBwX2NsaWVudF9pZDpzZWNyZXQ=
+    loginBase64ClientCredential: bG9naW5fY2xpZW50X2lkOnNlY3JldA==
     # Use a full wss:// URL for actual web socket server. use /livestream for mock data.
-    websocketServerURL: /livestream
-    #rmdDatasourceURL: {URL of your RMD datasource microservice}
+    websocketServerURL: wss://mck-demo-websocket-server.run.aws-usw02-pr.ice.predix.io
+    rmdDatasourceURL: https://mck-demo-rmd-datasource.run.aws-usw02-pr.ice.predix.io
     rmdDocsURL: "https://raw.githubusercontent.com/PredixDev/predix-rmd-ref-app/master/README.md"
+    assetURL: "https://predix-asset.run.aws-usw02-pr.ice.predix.io"
+    timeseriesURL: "https://time-series-store-predix.run.aws-usw02-pr.ice.predix.io/v1/datapoints"
+    clientId: "app_client_id"
+    uaaURL: "https://ece6b605-bece-4fad-82ba-874a29a250e5.predix-uaa.run.aws-usw02-pr.ice.predix.io"
+    timeseriesZoneId: "7f26ea9d-4391-4f54-b5dd-cbc1b1eea9bb"
+    assetZoneId: "1f085a9a-a521-4553-9916-e3c10347e8dc"

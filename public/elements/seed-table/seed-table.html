@@ -83,6 +83,9 @@
       _getAlertHtml: function(row) {
         var color = row.alertStatus ? 'red' : 'green';
         var iconClass = row.alertStatus ? 'failure' : 'confirmed';
+        if(color==='red'){
+          alert('Reciprocating Compressor - '+row.tag+' needs maintenance');
+        }
         return '<div style="color:' + color + ';"><px-icon icon="px-utl:' + iconClass + '"></px-icon></div>';
       },
 
