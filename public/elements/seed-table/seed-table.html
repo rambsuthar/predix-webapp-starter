@@ -5,7 +5,7 @@
 <link rel="import" href="../../bower_components/px-icon-set/px-icon-set.html">
 <link rel="import" href="../../bower_components/px-icon-set/px-icon.html">
 <link rel="import" href="../../bower_components/px-theme/px-theme-styles.html">
-
+<link rel="import" href="../../bower_components/px-alert-message/px-alert-message.html">
 <script src="../../bower_components/moment/min/moment.min.js"></script>
 
 <!-- over ride the app's dark theme, and use the light theme here. -->
@@ -18,6 +18,8 @@
 -->
 <dom-module id="seed-table">
     <template>
+      <px-alert-message hidden$="{{!self._isAnyFaulty}}" id="maintenance-warning" type="important" action="dismiss" message-title="Alert:" message="One or more devices need maintenance." auto-dismiss="0">
+      </px-alert-message>
       <style include="px-theme-styles" is="custom-style"></style>
       <px-card id="tableCard" header-text="Asset Status" icon="px-fea:asset" style="padding-bottom: 2rem">
         <px-data-table table-data="{{seedTableData}}" hide-pagination-control="[[!showPagination]]">
@@ -80,12 +82,20 @@
         this.headerText = "Asset Performance";
       },
 
+      _isAnyFaulty: function(rmdData){
+        var faulty = false;
+        rmdData.tableData.forEach(function(row) {
+          var color = row.alertStatus ? 'red' : 'green';
+          if(color==='red'){
+            return true;
+          }
+        });
+        return false;
+      },
+
       _getAlertHtml: function(row) {
         var color = row.alertStatus ? 'red' : 'green';
         var iconClass = row.alertStatus ? 'failure' : 'confirmed';
-        if(color==='red'){
-          alert('Reciprocating Compressor - '+row.tag+' needs maintenance');
-        }
         return '<div style="color:' + color + ';"><px-icon icon="px-utl:' + iconClass + '"></px-icon></div>';
       },
 
